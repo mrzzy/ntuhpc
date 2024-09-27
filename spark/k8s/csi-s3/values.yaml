@@ -1,0 +1,20 @@
+storageClass:
+  # Specifies whether the storage class should be created
+  create: true
+  # Name
+  name: csi-s3
+  # mounter to use - either geesefs, s3fs or rclone (default geesefs)
+  mounter: geesefs
+  # Annotations for the storage class
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+
+secret:
+  # Specifies whether the secret should be created
+  create: true
+  # Name of the secret
+  name: csi-s3-secret
+  # Endpoint
+  endpoint: http://minio.ntuhpc.org:9000
+  # Region
+  region: ""

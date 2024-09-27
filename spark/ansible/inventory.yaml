@@ -1,0 +1,22 @@
+# note: set env var ANSIBLE_HOST_KEY_CHECKING=False to avoid repeated host key trust prompts
+k8s-workers:
+  hosts:
+    # 10.233.0.168:
+    10.233.0.169:
+    10.233.0.170:
+    10.233.0.171:
+    10.233.0.172:
+    10.233.0.173:
+    10.233.0.174:
+    10.233.0.175:
+    10.233.0.176:
+    10.233.0.177:
+    10.233.0.178:
+    10.233.0.179:
+    10.233.0.180:
+    10.233.0.181:
+    10.233.0.182:
+    10.233.0.183:
+  vars:
+    ansible_user: root
+    # NOTE: pass password via -e ansible_ssh_pass=<PASSWORD>

@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-history
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    spec:
+      volumes:
+        - name: spark-events
+          persistentVolumeClaim:
+            claimName: spark-events
+      containers:
+        - name: spark-history
+          image: spark
+          imagePullPolicy: IfNotPresent
+          command:  # Launches Spark history server from Docker container
+            - '/opt/spark/sbin/start-history-server.sh'
+          env:
+            - name: SPARK_NO_DAEMONIZE
+              value: "false"
+          ports:
+            - name: http
+              containerPort: 18080
+              protocol: TCP
+          volumeMounts:
+          - mountPath: "/tmp/spark-events"
+            name: spark-events
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 18080
+          #     scheme: HTTP
+          #   timeoutSeconds: 5
+          #   periodSeconds: 30
+          #   successThreshold: 1
+          #   failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 18080
+              scheme: HTTP
+            timeoutSeconds: 5
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 3
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 4Gi
+            requests:
+              cpu: 1000m
+              memory: 256Mi
